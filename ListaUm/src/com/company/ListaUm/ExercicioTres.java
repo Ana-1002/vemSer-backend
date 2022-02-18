@@ -13,13 +13,14 @@ public class ExercicioTres {
 
         if (valP!=valC) {
             if (valP < valC) {
-                System.out.println("“o valor pago " +
+                System.out.println("o valor pago " +
                         "deve ser maior ou igual ao valor consumido");
             } else if (valP > valC) {
                 float troco = valP - valC;
                 System.out.println(troco);
             }
         }
+        System.out.println("Obrigado!");
     scanner.close();
     }
 }
