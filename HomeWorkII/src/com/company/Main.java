@@ -86,6 +86,8 @@ public class Main {
         contaMaicon.imprimir();
         contaMaicon.sacar(-100);
         contaMaicon.depositar(2000);
+        System.out.println("Valor Saldo  Maicon: "+contaMaicon.getSaldo()+"\n");
+        contaMaicon.creditarTaxa();
 
         System.out.println("Valor Saldo  Maicon: "+contaMaicon.getSaldo()+"\n");
 
