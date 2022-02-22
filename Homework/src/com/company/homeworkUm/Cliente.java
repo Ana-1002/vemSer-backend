@@ -8,14 +8,16 @@ public class Cliente {
 
     public void imprimirContatos(){
         for(int i=0; i<2; i++){
+           if(contatosCliente[i]!=null){
             System.out.println("Contato "+(i+1)+":\n");
-            contatosCliente[i].imprimirContato();
+            contatosCliente[i].imprimirContato();}
         }
     }
     public void imprimirEnderecos(){
         for(int i=0; i<2; i++){
+            if(contatosCliente[i]!=null){
             System.out.println("Endereço "+(i+1)+": \n");
-            enderecosCliente[i].imprimirEndereco();
+            enderecosCliente[i].imprimirEndereco();}
         }
     }
     public void imprimirCliente(){

@@ -21,7 +21,6 @@ public class ContaCorrente {
             if (valorSaque<=retornarSaldoComQuequeEspecial()){
                 saldo-=valorSaque;
                 retorno=true;
-
             }
         }
         return retorno;
