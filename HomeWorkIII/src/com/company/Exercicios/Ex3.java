@@ -3,7 +3,7 @@ package com.company.Exercicios;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Main {
+public class Ex3 {
 
     public static void main(String[] args) {
         Queue<Integer> fila = new LinkedList();
