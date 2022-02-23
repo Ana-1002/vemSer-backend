@@ -9,6 +9,17 @@ public class ContaCorrente extends Conta implements Impressao{
         double var= getSaldo();
         return (var+chequeEspecial);
     }
+    @Override
+    public boolean sacar(double valorSaque){
+        boolean retorno = false;
+        if (valorSaque > 0) {
+            if (valorSaque <= retornarSaldoComQuequeEspecial()) {
+                super.setSaldo(getSaldo() - valorSaque);
+                retorno = true;
+            }
+        }
+        return retorno;
+    }
 
 
     public double getChequeEspecial() {

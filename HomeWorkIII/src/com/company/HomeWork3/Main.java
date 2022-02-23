@@ -1,6 +1,8 @@
 package com.company.HomeWork3;
 
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -38,18 +40,9 @@ public class Main {
         endereco2.imprimirEndereco();
 
         //Cientes
-        Cliente cliente1= new Cliente();
-        Cliente cliente2= new Cliente();
+        Cliente cliente1= new Cliente("Ana", "043896532525", contato1, null, endereco, endereco2);
+        Cliente cliente2= new Cliente("Maicon", "123-123-123-50", contato2, contato1, endereco2, null);
 
-        cliente1.setNome("ana");
-        cliente1.setCpf("51356541");
-        cliente1.setEnderecosCliente(new Endereco[]{endereco2,endereco});
-        cliente1.setContatosCliente(new Contato[]{contato2, contato1});
-
-        cliente2.setNome("Maicon");
-        cliente2.setCpf("51655");
-        cliente2.setContatosCliente(new Contato[]{contato1,contato2});
-        cliente2.setEnderecosCliente(new Endereco[]{endereco, endereco2});
 
         //metodos cliente
         cliente1.imprimirCliente();
@@ -61,7 +54,8 @@ public class Main {
         cliente2.imprimirEnderecos();
 
         //Contas
-        ContaCorrente contaAna= new ContaCorrente();
+        ContaCorrente contaAna =new ContaCorrente();
+        ContaPagamento contaPagamentoAna=new ContaPagamento();
         ContaPoupança contaMaicon= new ContaPoupança();
 
         contaAna.setCliente(cliente1);
@@ -70,31 +64,56 @@ public class Main {
         contaAna.setSaldo(2000);
         contaAna.setChequeEspecial(21);
 
+        contaPagamentoAna.setCliente(cliente1);
+        contaPagamentoAna.setNumeroConta("2020-2");
+        contaPagamentoAna.setAgencia(365);
+        contaPagamentoAna.setSaldo(2000);
+
+
         contaMaicon.setCliente(cliente2);
         contaMaicon.setNumeroConta("31635");
         contaMaicon.setAgencia(365);
         contaMaicon.setSaldo(1000);
 
-        //metodos contas
+        System.out.println("Conta Pagamento Ana\n");
+        contaPagamentoAna.imprimir();
+        contaPagamentoAna.sacar(1000);
+        contaPagamentoAna.depositar(-5);
+        System.out.println("Valor Saldo conta Pagamento Ana: "+contaPagamentoAna.getSaldo()+"\n");
+
+        contaPagamentoAna.depositar(2000);
+        System.out.println("Valor Saldo conta Pagamento Ana: "+contaPagamentoAna.getSaldo()+"\n");
+
+        System.out.println("Valor Transferido de Maicon para conta Pagamento da Ana? "+contaMaicon.transferir(contaPagamentoAna,1000)+"\n");
+        System.out.println("Valor Saldo Maicon: "+contaMaicon.getSaldo()+"\n");
+        System.out.println("Valor Saldo da conta Pagamento Ana: "+contaPagamentoAna.getSaldo()+"\n");
+
+        System.out.println("Valor Transferido de conta Pagamento da Ana para conta Corrente da Ana? "+contaPagamentoAna.transferir(contaAna,1000)+"\n");
+        System.out.println("Valor Saldo e Cheque especial da Ana conta Corrente: "+contaAna.retornarSaldoComQuequeEspecial()+"\n");
+        System.out.println("Valor Saldo da conta Pagamento Ana: "+contaPagamentoAna.getSaldo()+"\n");
+
+
+        /*metodos contas
         System.out.println("Conta Ana\n");
         contaAna.imprimir();
         contaAna.sacar(2000);
         contaAna.depositar(-5);
-
         System.out.println("Valor Saldo e Cheque especial Ana: "+contaAna.retornarSaldoComQuequeEspecial()+"\n");
+
         System.out.println("Conta Maicon\n");
         contaMaicon.imprimir();
         contaMaicon.sacar(-100);
         contaMaicon.depositar(2000);
         System.out.println("Valor Saldo  Maicon: "+contaMaicon.getSaldo()+"\n");
         contaMaicon.creditarTaxa();
-
         System.out.println("Valor Saldo  Maicon: "+contaMaicon.getSaldo()+"\n");
 
 
         System.out.println("Valor Transferido? "+contaMaicon.transferir(contaAna,1000)+"\n");
         System.out.println("Valor Saldo e Cheque especial Maicon: "+contaMaicon.getSaldo()+"\n");
         System.out.println("Valor Saldo e Cheque especial Ana: "+contaAna.retornarSaldoComQuequeEspecial()+"\n");
+
+       */
 
 
     }
