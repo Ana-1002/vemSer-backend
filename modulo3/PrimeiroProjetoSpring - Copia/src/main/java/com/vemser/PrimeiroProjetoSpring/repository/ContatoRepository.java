@@ -1,6 +1,7 @@
 package com.vemser.PrimeiroProjetoSpring.repository;
 
 import com.vemser.PrimeiroProjetoSpring.entity.Contato;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+@Repository
 public class ContatoRepository {
     private static List<Contato> listaContatos = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
@@ -45,12 +47,13 @@ public class ContatoRepository {
         contatoRecuperado.setNomeContato(contatoAtualizar.getNomeContato());
         return contatoRecuperado;
     }
-    public void delete(Integer id) throws Exception {
+    public Contato delete(Integer id) throws Exception {
         Contato contatoRecuperado = listaContatos.stream()
                 .filter(contato -> contato.getIdContato()==id)
                 .findFirst()
                 .orElseThrow(() -> new Exception("Contato não econtrado"));
         listaContatos.remove(contatoRecuperado);
+        return contatoRecuperado;
     }
 
     public List<Contato> listContatoById(Integer id) {

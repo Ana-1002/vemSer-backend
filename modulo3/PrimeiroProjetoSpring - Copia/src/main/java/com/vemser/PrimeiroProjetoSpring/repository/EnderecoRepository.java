@@ -28,7 +28,7 @@ public class EnderecoRepository {
     public Endereco create (Integer id, Endereco endereco){
         endereco.setIdEndereco(COUNTER.incrementAndGet());
         endereco.setIdPessoa(id);
-        listaEndereco.add(endereco);
+      listaEndereco.add(endereco);
         return endereco;
     }
 
@@ -61,12 +61,13 @@ public class EnderecoRepository {
         return enderecoUpdate;
     }
 
-    public void delete(Integer id) throws Exception {
+    public Endereco delete(Integer id) throws Exception {
         Endereco enderecoDel = listaEndereco.stream()
                 .filter(endereco -> endereco.getIdEndereco()==id)
                 .findFirst()
                 .orElseThrow(() -> new Exception("Endereco não econtrado"));
-        listaEndereco.remove(enderecoDel);
+         listaEndereco.remove(enderecoDel);
+         return enderecoDel;
     }
 
 }
