@@ -19,23 +19,6 @@ public class PessoaService {
     @Autowired
     private ObjectMapper objectMapper;
 
-
-//    public PessoaService(){
-//        pessoaRepository = new PessoaRepository();
-//    }
-
-    public PessoaDTO update(Integer id,
-                                  PessoaDTO pessoaAtualizar) throws Exception {
-        Pessoa pessoa = objectMapper.convertValue(pessoaAtualizar, Pessoa.class);
-        pessoaRepository.update(id, pessoa);
-        return pessoaAtualizar;
-    }
-
-
-    public List<Pessoa> listByName(String nome) {
-        return pessoaRepository.listByName(nome);
-
-    }
     public PessoaDTO create(PessoaCreateDTO pessoaCreate) throws Exception {
 
         Pessoa pessoa = objectMapper.convertValue(pessoaCreate, Pessoa.class);
@@ -45,6 +28,18 @@ public class PessoaService {
         PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaCriada, PessoaDTO.class);
 
         return pessoaDTO;
+    }
+
+    public PessoaDTO update(Integer id,
+                                  PessoaDTO pessoaAtualizar) throws Exception {
+        Pessoa pessoa = objectMapper.convertValue(pessoaAtualizar, Pessoa.class);
+        pessoaRepository.update(id, pessoa);
+        return pessoaAtualizar;
+    }
+
+    public List<Pessoa> listByName(String nome) {
+        return pessoaRepository.listByName(nome);
+
     }
 
     public List<PessoaDTO>list(){

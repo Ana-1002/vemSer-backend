@@ -26,7 +26,7 @@ public class ContatoController {
     }
 
     @PostMapping("/{idPessoa}") // localhost:8080/contato
-    public ResponseEntity<ContatoDTO> create(@PathVariable("idPessoa") Integer id,
+    public ResponseEntity<ContatoDTO> create(@PathVariable("idPessoa") @Valid Integer id,
                                                    @RequestBody @Valid ContatoCreateDTO contato) throws Exception{
         log.info("Criou o contato");
         return ResponseEntity.ok(contatoService.create(id, contato));
@@ -39,20 +39,20 @@ public class ContatoController {
     }
 
     @GetMapping("/{idPessoa}") // localhost:8080/contato/1
-    public ResponseEntity<List<Contato>> listContatoById(@PathVariable("idPessoa") Integer id) {
+    public ResponseEntity<List<Contato>> listContatoById(@PathVariable("idPessoa") @Valid Integer id) {
         log.info("Listou o contato por id");
         return ResponseEntity.ok(contatoService.listContatoById(id));
     }
 
     @PutMapping("/{idContato}") // localhost:8080/contato/1000
-    public ResponseEntity<ContatoDTO> update(@PathVariable("idContato") Integer id,
+    public ResponseEntity<ContatoDTO> update(@PathVariable("idContato") @Valid Integer id,
                          @RequestBody @Valid ContatoDTO contatoAtuallizar) throws Exception {
         log.info("Editou o contato");
         return ResponseEntity.ok(contatoService.update(id, contatoAtuallizar));
     }
 
     @DeleteMapping("/{idContato}") // localhost:8080/contato/10
-    public ResponseEntity<ContatoDTO> delete(@PathVariable("idContato") Integer id) throws Exception {
+    public ResponseEntity<ContatoDTO> delete(@PathVariable("idContato") @Valid Integer id) throws Exception {
         log.info("Deletou o contato");
         return ResponseEntity.ok(contatoService.delete(id));
     }

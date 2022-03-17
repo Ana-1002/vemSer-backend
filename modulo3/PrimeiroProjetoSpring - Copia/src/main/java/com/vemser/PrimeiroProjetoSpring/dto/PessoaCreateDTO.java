@@ -2,6 +2,8 @@ package com.vemser.PrimeiroProjetoSpring.dto;
 
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
+
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
@@ -12,4 +14,6 @@ public class PessoaCreateDTO {
     private LocalDate dataNascimento;
     @CPF
     private String cpf;
+    @Email
+    private String email;
 }

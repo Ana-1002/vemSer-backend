@@ -40,15 +40,13 @@ public class EnderecoService {
                 .collect(Collectors.toList());
     }
 
-
-
     public EnderecoDTO delete(Integer id) throws Exception {
        Endereco endereco = enderecoRepository.delete(id);
        EnderecoDTO enderecoDTO= objectMapper.convertValue(endereco, EnderecoDTO.class);
     return enderecoDTO;
     }
 
-    public EnderecoDTO create(Integer id, EnderecoDTO pessoaCreate) throws Exception {
+    public EnderecoDTO create(Integer id, EnderecoCreateDTO pessoaCreate) throws Exception {
 
         Endereco endereco = objectMapper.convertValue(pessoaCreate, Endereco.class);
         Endereco endereco1 = enderecoRepository.create(id, endereco);
