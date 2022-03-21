@@ -1,1 +1,1 @@
-httpspessoa-api-anagocthel.herokuapp.comswagger-ui#contato-controller
+https://pessoa-api-anagocthel.herokuapp.com/swagger-ui/
