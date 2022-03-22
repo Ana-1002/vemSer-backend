@@ -1,5 +1,6 @@
 package com.vemser.PrimeiroProjetoSpring.dto;
 
+import com.vemser.PrimeiroProjetoSpring.entity.ContatoTipo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,28 +12,21 @@ import javax.validation.constraints.Size;
 @Data
 public class ContatoCreateDTO {
 
-    @ApiModelProperty(value = "ID pessoa")
-    private Integer idPessoa;
+
 
     @ApiModelProperty(value = "Tipo de Contato")
     @NotNull
     @Max(2)
-    private Integer tipo;
+    private ContatoTipo tipo;
 
     @ApiModelProperty(value = "Numero para contato")
     @NotEmpty
     @Size(min = 9, max = 11)
-    private String numeroTelefone;
+    private String numero;
 
     @ApiModelProperty(value = "Numero para contato")
     @NotEmpty
     @Size(max = 255)
     private String descricao;
-//    private Integer idPessoa;
-//
-//    private Integer tipo;
-//
-//    private String numero;
-//
-//    private String descricao;
+
 }

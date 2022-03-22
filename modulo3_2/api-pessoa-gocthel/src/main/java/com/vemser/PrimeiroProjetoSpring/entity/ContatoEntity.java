@@ -14,14 +14,15 @@ import javax.validation.constraints.NotNull;
 @Entity(name="Contato")
 public class ContatoEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ENDERECO_SEQ")
-    @SequenceGenerator(name= "ENDERECO_SEQ", sequenceName = "seq_endereco", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTATO_SEQ")
+    @SequenceGenerator(name= "CONTATO_SEQ", sequenceName = "seq_contato", allocationSize = 1)
     @Column(name = "id_contato")
     private Integer idContato;
     @Column(name = "id_pessoa")
     private Integer idPessoa;
     @Column(name = "tipo")
-    private Integer tipo;
+    @Enumerated(EnumType.ORDINAL)
+    private ContatoTipo tipo;
     @Column(name = "numero")
     private String numero;
     @Column(name = "descricao")

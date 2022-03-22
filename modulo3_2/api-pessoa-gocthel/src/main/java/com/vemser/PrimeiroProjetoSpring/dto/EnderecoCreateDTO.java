@@ -1,5 +1,6 @@
 package com.vemser.PrimeiroProjetoSpring.dto;
 
+import com.vemser.PrimeiroProjetoSpring.entity.EnderecoTipo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -13,7 +14,7 @@ public class EnderecoCreateDTO {
     @ApiModelProperty(value = "Tipo de endereco")
     @NotNull
     @Max(2)
-    private Integer tipo;
+    private EnderecoTipo tipo;
 
     @ApiModelProperty(value = "logradouro")
     @NotEmpty

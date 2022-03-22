@@ -21,6 +21,7 @@ public class ContatoService {
     public ContatoDTO create(Integer idPessoa, ContatoCreateDTO contato){
 
         ContatoEntity contatoEntity1 = objectMapper.convertValue(contato, ContatoEntity.class);
+        contatoEntity1.setIdPessoa(idPessoa);
         ContatoEntity contatoEntityCriado = contatoRepository.save(contatoEntity1);
 
         return objectMapper.convertValue(contatoEntityCriado, ContatoDTO.class);
@@ -40,7 +41,7 @@ public class ContatoService {
         ContatoEntity contatoEntity = contatoRepository.findById(id)
                 .orElseThrow(()->new RegraDeNegocioException("Contato não encontrada!"));
         contatoEntity.setDescricao(contatoAtualizar.getDescricao());
-        contatoEntity.setNumero(contatoAtualizar.getNumeroTelefone());
+        contatoEntity.setNumero(contatoAtualizar.getNumero());
         contatoEntity.setTipo(contatoAtualizar.getTipo());
 
         return objectMapper.convertValue(contatoEntity, ContatoDTO.class);
