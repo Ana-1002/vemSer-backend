@@ -1,6 +1,10 @@
 package com.vemser.PrimeiroProjetoSpring.controller;
 import com.vemser.PrimeiroProjetoSpring.dto.ContatoCreateDTO;
 import com.vemser.PrimeiroProjetoSpring.dto.ContatoDTO;
+import com.vemser.PrimeiroProjetoSpring.entity.ContatoEntity;
+import com.vemser.PrimeiroProjetoSpring.entity.ContatoTipo;
+import com.vemser.PrimeiroProjetoSpring.entity.EnderecoEntity;
+import com.vemser.PrimeiroProjetoSpring.repository.ContatoRepository;
 import com.vemser.PrimeiroProjetoSpring.service.ContatoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -20,6 +24,12 @@ import java.util.List;
 public class ContatoController {
     @Autowired
     private ContatoService contatoService;
+   @Autowired
+    private ContatoRepository contatoRepository;
+
+    @GetMapping("/list-contato-by-tipo-jsql") List<ContatoEntity> listContatoByTipoJSQL(@RequestParam ContatoTipo tipo){
+        return contatoRepository.findContatoByTipoJSQL(tipo);
+    }
 
     @ApiOperation(value = "Retorna um Hello World!")
     @ApiResponses(value = {

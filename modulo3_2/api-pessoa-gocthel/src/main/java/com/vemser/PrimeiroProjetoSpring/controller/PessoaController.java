@@ -35,6 +35,14 @@ public class PessoaController {
         return ResponseEntity.ok("Hello world!");
     }
 
+
+    @GetMapping("/list-pessoa-by-dataNascimento-jsql") List<PessoaEntity> listPessoaByDataNascimentoJSQL(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate dataInicio, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim){
+        return pessoaRepository.findByDataNascimentoBetweenJSQL( dataFim, dataInicio);
+    }
+    @GetMapping("/list-pessoa-by-endereco-jsql") List<PessoaEntity> listPessoaByEnderecoJSQL(){
+    return pessoaRepository.findPessoaByEnderecoJPQL();
+    }
+
     @GetMapping("/listar-com-contatos")
     public List<PessoaDTOComContatos> listarPessoasComContato(@RequestParam(value = "id", required = false) Integer idPessoa) throws RegraDeNegocioException, RegraDeNegocioException {
         return pessoaService.listComContatos(idPessoa);

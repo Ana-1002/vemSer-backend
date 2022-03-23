@@ -2,6 +2,8 @@ package com.vemser.PrimeiroProjetoSpring.controller;
 
 import com.vemser.PrimeiroProjetoSpring.dto.EnderecoCreateDTO;
 import com.vemser.PrimeiroProjetoSpring.dto.EnderecoDTO;
+import com.vemser.PrimeiroProjetoSpring.entity.EnderecoEntity;
+import com.vemser.PrimeiroProjetoSpring.repository.EnderecoRepository;
 import com.vemser.PrimeiroProjetoSpring.service.EnderecoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -21,6 +23,16 @@ import java.util.List;
 public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+
+    @GetMapping("/list-endereco-by-pais-jsql") List<EnderecoEntity> listEnderecoByPaisJSQL(@RequestParam String pais){
+        return enderecoRepository.findEnderecoByPaisJPQL(pais);
+    }
+    @GetMapping("/list-endereco-by-id-jsql") List<EnderecoEntity> listEnderecoByIdJSQL(@RequestParam Integer id){
+        return enderecoRepository.findEnderecoByIdJPQL(id);
+    }
 
     @ApiOperation(value = "Retorna uma lista de Endereços")
     @ApiResponses(value = {
