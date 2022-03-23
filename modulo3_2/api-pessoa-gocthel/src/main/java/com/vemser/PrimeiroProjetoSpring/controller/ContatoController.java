@@ -30,6 +30,9 @@ public class ContatoController {
     @GetMapping("/list-contato-by-tipo-jsql") List<ContatoEntity> listContatoByTipoJSQL(@RequestParam ContatoTipo tipo){
         return contatoRepository.findContatoByTipoJSQL(tipo);
     }
+    @GetMapping("/list-contato-by-id-pessoa-native") List<ContatoEntity> findContatoByIdPessoaNative(@RequestParam Integer id){
+        return contatoRepository.findContatoByIdPessoaNative(id);
+    }
 
     @ApiOperation(value = "Retorna um Hello World!")
     @ApiResponses(value = {

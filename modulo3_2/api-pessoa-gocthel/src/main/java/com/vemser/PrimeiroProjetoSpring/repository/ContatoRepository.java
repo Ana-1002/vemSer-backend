@@ -15,4 +15,11 @@ public interface ContatoRepository  extends JpaRepository<ContatoEntity, Integer
     " where c.tipo = :tipo ")
     List<ContatoEntity> findContatoByTipoJSQL(ContatoTipo tipo);
 
+    @Query( value="SELECT * "+
+            " FROM VEM_SER.Contato c "+
+            " WHERE c.id_pessoa = :id", nativeQuery=true)
+    List<ContatoEntity> findContatoByIdPessoaNative(Integer id);
+
+
+
 }

@@ -19,6 +19,18 @@ public interface EnderecoRepository  extends JpaRepository<EnderecoEntity, Integ
             "where p.idPessoa = :id ")
     List<EnderecoEntity> findEnderecoByIdJPQL(Integer id);
 
+    @Query( value="SELECT * "
+            +" FROM VEM_SER.ENDERECO_PESSOA e"
+            +" WHERE e.cidade = :cidade OR e.pais = :pais",nativeQuery = true
+    ) List<EnderecoEntity> findEnderecoByCidadeOrPaisNative(String cidade, String pais);
+
+    @Query( value="SELECT * "
+            +" FROM VEM_SER.ENDERECO_PESSOA e"
+            +" WHERE e.complemento IS NULL ",nativeQuery = true
+    ) List<EnderecoEntity> findEnderecoSemComplementoNative();
+
+
+
 //    @Query("select e "+
 //            "from ENDERECO_PESSOA e "+
 //            "where e.idEndereco = :id ")

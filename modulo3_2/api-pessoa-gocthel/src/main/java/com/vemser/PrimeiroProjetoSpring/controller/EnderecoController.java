@@ -34,6 +34,13 @@ public class EnderecoController {
         return enderecoRepository.findEnderecoByIdJPQL(id);
     }
 
+    @GetMapping("/list-endereco-by-cidade-ou-pais-native") List<EnderecoEntity> findEnderecoByCidadeOrPaisNative(@RequestParam String cidade, @RequestParam String pais){
+        return enderecoRepository.findEnderecoByCidadeOrPaisNative(cidade, pais);
+    }
+    @GetMapping("/list-endereco-sem-complemento-native") List<EnderecoEntity> listEnderecoSemComplementoNative(){
+        return enderecoRepository.findEnderecoSemComplementoNative();
+    }
+
     @ApiOperation(value = "Retorna uma lista de Endereços")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retornou a lista de Endereços"),
