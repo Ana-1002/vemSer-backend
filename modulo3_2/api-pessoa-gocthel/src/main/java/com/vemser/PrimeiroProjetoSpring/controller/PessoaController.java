@@ -2,7 +2,10 @@ package com.vemser.PrimeiroProjetoSpring.controller;
 
 import com.vemser.PrimeiroProjetoSpring.dto.PessoaCreateDTO;
 import com.vemser.PrimeiroProjetoSpring.dto.PessoaDTO;
+import com.vemser.PrimeiroProjetoSpring.dto.PessoaDTOComContatos;
+import com.vemser.PrimeiroProjetoSpring.dto.PessoaDTOComEnderecos;
 import com.vemser.PrimeiroProjetoSpring.entity.PessoaEntity;
+import com.vemser.PrimeiroProjetoSpring.exception.RegraDeNegocioException;
 import com.vemser.PrimeiroProjetoSpring.repository.PessoaRepository;
 import com.vemser.PrimeiroProjetoSpring.service.PessoaService;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/pessoa") // localhost:8080/pessoa
@@ -33,6 +35,14 @@ public class PessoaController {
         return ResponseEntity.ok("Hello world!");
     }
 
+    @GetMapping("/listar-com-contatos")
+    public List<PessoaDTOComContatos> listarPessoasComContato(@RequestParam(value = "id", required = false) Integer idPessoa) throws RegraDeNegocioException, RegraDeNegocioException {
+        return pessoaService.listComContatos(idPessoa);
+    }
+    @GetMapping("/listar-com-enderecos")
+    public List<PessoaDTOComEnderecos> listarPessoasComEnderecos(@RequestParam(value = "id", required = false) Integer idPessoa) throws RegraDeNegocioException {
+        return pessoaService.listComEnderecos(idPessoa);
+    }
 
     @PostMapping // localhost:8080/pessoa
     public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaCreateDTO pessoa) throws Exception {

@@ -1,9 +1,11 @@
 package com.vemser.PrimeiroProjetoSpring.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,4 +36,8 @@ public class EnderecoEntity {
         private String pais;
         @Column(name = "complemento")
         private String complemento;
+
+        @JsonIgnore
+        @ManyToMany(mappedBy = "enderecos")
+        private Set<PessoaEntity> pessoas;
 }
