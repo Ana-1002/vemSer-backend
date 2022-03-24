@@ -1,9 +1,6 @@
 package com.vemser.PrimeiroProjetoSpring.controller;
 
-import com.vemser.PrimeiroProjetoSpring.dto.PessoaCreateDTO;
-import com.vemser.PrimeiroProjetoSpring.dto.PessoaDTO;
-import com.vemser.PrimeiroProjetoSpring.dto.PessoaDTOComContatos;
-import com.vemser.PrimeiroProjetoSpring.dto.PessoaDTOComEnderecos;
+import com.vemser.PrimeiroProjetoSpring.dto.*;
 import com.vemser.PrimeiroProjetoSpring.entity.PessoaEntity;
 import com.vemser.PrimeiroProjetoSpring.exception.RegraDeNegocioException;
 import com.vemser.PrimeiroProjetoSpring.repository.PessoaRepository;
@@ -49,9 +46,15 @@ public class PessoaController {
     }
 
     @GetMapping("/listar-com-contatos")
-    public List<PessoaDTOComContatos> listarPessoasComContato(@RequestParam(value = "id", required = false) Integer idPessoa) throws RegraDeNegocioException, RegraDeNegocioException {
+    public List<PessoaDTOComContatos> listarPessoasComContato(@RequestParam Integer idPessoa) throws RegraDeNegocioException {
         return pessoaService.listComContatos(idPessoa);
     }
+
+    @GetMapping("/listar-completo")
+    public List<PessoaDTOCompleto> listarPessoasCompleto(@RequestParam(value = "id", required = false) Integer idPessoa) throws RegraDeNegocioException {
+        return pessoaService.listCompleto(idPessoa);
+    }
+
     @GetMapping("/listar-com-enderecos")
     public List<PessoaDTOComEnderecos> listarPessoasComEnderecos(@RequestParam(value = "id", required = false) Integer idPessoa) throws RegraDeNegocioException {
         return pessoaService.listComEnderecos(idPessoa);

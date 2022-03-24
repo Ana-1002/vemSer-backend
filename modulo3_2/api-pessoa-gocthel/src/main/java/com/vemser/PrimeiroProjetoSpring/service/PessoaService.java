@@ -18,6 +18,39 @@ public class PessoaService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    public List<PessoaDTOCompleto> listCompleto(Integer idPessoa) throws RegraDeNegocioException {
+           List<PessoaDTOCompleto> pessoaDTOCompletos = new ArrayList<>();
+        if(idPessoa == null){
+        pessoaDTOCompletos.addAll(pessoaRepository.findPessoaComEnderecoEContatoJPQL()
+                   .stream()
+                   .map(pessoaEntity -> {
+                       PessoaDTOCompleto pessoaDTOCompleto = objectMapper.convertValue(pessoaEntity, PessoaDTOCompleto.class);
+                       pessoaDTOCompleto.setContatos(pessoaEntity.getContatos().stream()
+                               .map(contato -> objectMapper.convertValue(contato, ContatoDTO.class))
+                               .collect(Collectors.toList())
+                       );
+                       pessoaDTOCompleto.setEnderecos(pessoaEntity.getEnderecos().stream()
+                               .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                               .collect(Collectors.toList())
+                       );
+                       return pessoaDTOCompleto;
+                   }).collect(Collectors.toList()));
+        return pessoaDTOCompletos;
+    }else {
+            PessoaEntity pessoaEntity = pessoaRepository.findById(idPessoa)
+                    .orElseThrow(() -> new RegraDeNegocioException("Pessoa não econtrada!"));
+            PessoaDTOCompleto pessoaDTOCompleto = objectMapper.convertValue(pessoaEntity, PessoaDTOCompleto.class);
+            pessoaDTOCompleto.setContatos(pessoaEntity.getContatos().stream()
+                    .map(contato -> objectMapper.convertValue(contato, ContatoDTO.class))
+                    .collect(Collectors.toList()));
+            pessoaDTOCompleto.setEnderecos(pessoaEntity.getEnderecos().stream()
+                    .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                    .collect(Collectors.toList()));
+            pessoaDTOCompletos.add(pessoaDTOCompleto);
+        }
+        return pessoaDTOCompletos;
+    }
+
     public List<PessoaDTOComContatos> listComContatos(Integer idPessoa) throws RegraDeNegocioException {
         List<PessoaDTOComContatos> pessoaDTOList = new ArrayList<>();
         if(idPessoa == null){
@@ -50,8 +83,8 @@ public class PessoaService {
             pessoaDTOList.addAll(pessoaRepository.findAll().stream()
                     .map(pessoa -> {
                         PessoaDTOComEnderecos pessoaDTOComEnderecos = objectMapper.convertValue(pessoa, PessoaDTOComEnderecos.class);
-                        pessoaDTOComEnderecos.setEnderecos(pessoa.getEnderecos().stream()
-                                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                       pessoaDTOComEnderecos.setEnderecos(pessoa.getEnderecos().stream()
+                                 .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
                                 .collect(Collectors.toList())
                         );
 
@@ -111,5 +144,6 @@ public class PessoaService {
         pessoaRepository.deleteById(id);
         return objectMapper.convertValue(pessoa, PessoaDTO.class);
     }
+
 
 }
