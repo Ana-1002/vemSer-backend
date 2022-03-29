@@ -45,8 +45,6 @@ public class ContatoService {
         contatoEntity.setTipo(contatoAtualizar.getTipo());
 
         return objectMapper.convertValue(contatoEntity, ContatoDTO.class);
-
-
     }
 
     public ContatoDTO delete(Integer id) throws Exception {

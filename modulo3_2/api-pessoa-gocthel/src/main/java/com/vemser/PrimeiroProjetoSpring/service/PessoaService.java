@@ -18,6 +18,7 @@ public class PessoaService {
     @Autowired
     private ObjectMapper objectMapper;
 
+
     public List<PessoaDTOCompleto> listCompleto(Integer idPessoa) throws RegraDeNegocioException {
            List<PessoaDTOCompleto> pessoaDTOCompletos = new ArrayList<>();
         if(idPessoa == null){

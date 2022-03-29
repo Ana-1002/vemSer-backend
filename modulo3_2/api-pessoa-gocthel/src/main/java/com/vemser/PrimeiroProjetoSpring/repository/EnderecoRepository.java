@@ -1,5 +1,7 @@
 package com.vemser.PrimeiroProjetoSpring.repository;
 import com.vemser.PrimeiroProjetoSpring.entity.EnderecoEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -29,6 +31,10 @@ public interface EnderecoRepository  extends JpaRepository<EnderecoEntity, Integ
             +" WHERE e.complemento IS NULL ",nativeQuery = true
     ) List<EnderecoEntity> findEnderecoSemComplementoNative();
 
+    @Query( value="SELECT e "
+            +" FROM ENDERECO_PESSOA e "
+            +" ORDER BY :pais")
+    Page<EnderecoEntity> findAllPagFilradaPorPais(String pais, Pageable pageable);
 
 
 //    @Query("select e "+

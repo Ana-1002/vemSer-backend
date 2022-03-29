@@ -1,6 +1,7 @@
 package com.vemser.PrimeiroProjetoSpring.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.jfr.Category;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class ContatoEntity {
     @Enumerated(EnumType.ORDINAL)
     private ContatoTipo tipo;
 
+
     @Column(name = "numero")
     private String numero;
 
@@ -37,6 +39,4 @@ public class ContatoEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pessoa", referencedColumnName = "id_pessoa")
     private PessoaEntity pessoaEntity;
-
-
 }

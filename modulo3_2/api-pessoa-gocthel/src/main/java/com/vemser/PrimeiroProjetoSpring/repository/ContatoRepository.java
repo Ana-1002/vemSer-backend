@@ -19,7 +19,4 @@ public interface ContatoRepository  extends JpaRepository<ContatoEntity, Integer
             " FROM VEM_SER.Contato c "+
             " WHERE c.id_pessoa = :id", nativeQuery=true)
     List<ContatoEntity> findContatoByIdPessoaNative(Integer id);
-
-
-
 }
