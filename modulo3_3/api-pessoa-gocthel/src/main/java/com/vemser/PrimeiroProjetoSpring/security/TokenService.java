@@ -1,32 +1,62 @@
 package com.vemser.PrimeiroProjetoSpring.security;
 
 import com.vemser.PrimeiroProjetoSpring.entity.UsuarioEntity;
-import com.vemser.PrimeiroProjetoSpring.service.UsuarioService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-import java.util.Optional;
-
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
-    private static final String CARACTER_SEPARACAO = ";";
-    private final UsuarioService usuarioService;
 
-    public String getToken(UsuarioEntity usuarioEntity){
-        String tokenTexto = usuarioEntity.getLogin() + CARACTER_SEPARACAO + usuarioEntity.getSenha(); // user;password
-        String token = Base64.getEncoder().encodeToString(tokenTexto.getBytes()); //
-        return token;
+    private static final String PREFIX = "Bearer ";
+    private static final String HEADER_AUTHORIZATION = "Authorization";
+
+    @Value("${jwt.expiration}")
+    private String expiration;
+
+    @Value("${jwt.secret}")
+    private String secret;
+
+    public String getToken(Authentication authentication) {
+        UsuarioEntity usuario = (UsuarioEntity) authentication.getPrincipal();
+
+        Date now = new Date();
+        Date exp = new Date(now.getTime() + Long.parseLong(expiration));
+
+        String token = Jwts.builder()
+                .setIssuer("PrimeiroProjetoSpring")
+                .setSubject(usuario.getIdUsuario().toString())
+                .setIssuedAt(now)
+                .setExpiration(exp)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+
+        return PREFIX + token;
     }
 
-    public Optional<UsuarioEntity> isValid(String token){
-        if(token == null){
-            return Optional.empty();
+    public Authentication getAuthentication(HttpServletRequest request) {
+        String tokenBearer = request.getHeader(HEADER_AUTHORIZATION); // Bearer hfUIfs
+
+        if (tokenBearer != null) {
+            String token = tokenBearer.replace(PREFIX, "");
+            String user = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+
+            if (user != null) {
+                return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+            }
         }
-        byte[] decodedTokenBytes = Base64.getUrlDecoder().decode(token);
-        String decodedTokenString = new String(decodedTokenBytes); //user;password
-        String[] usuarioESenha = decodedTokenString.split(CARACTER_SEPARACAO);/// ['user', 'password']
-        return usuarioService.findByLoginAndSenha(usuarioESenha[0] /*user*/, usuarioESenha[1] /*password*/);
+        return null;
     }
 }
