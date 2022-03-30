@@ -1,0 +1,18 @@
+git 1 - Colocar o spring na versão 2.5.6 e a Spring cloud na 2020.0.4
+2 - application.properties(Spring) padrão, com a seguinte configuração:
+
+	spring.application.name=PessoaAPI-DEV
+	server.port=8080
+	ambiente=dev
+	user=Rafael Lazzari
+	spring.mail.host=smtp.dbccompany.com.br
+	spring.mail.port=587
+	spring.mail.username=xxx
+	spring.mail.password=xxx
+	spring.mail.properties.mail.smtp.auth=true
+	spring.mail.properties.mail.smtp.starttls.enable=true
+
+3 - arquivo system.properties no mesmo nível da pasta src, com a seguinte config:
+
+	 java.runtime.version=11 
+Nota: Alterar a versão do java no pom para 11 também.
