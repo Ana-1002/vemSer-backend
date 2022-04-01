@@ -2,6 +2,7 @@ package com.vemser.PrimeiroProjetoSpring.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vemser.PrimeiroProjetoSpring.entity.GrupoEntity;
+import com.vemser.PrimeiroProjetoSpring.exception.RegraDeNegocioException;
 import com.vemser.PrimeiroProjetoSpring.repository.GrupoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,9 @@ public class GrupoService {
     private final GrupoRepository grupoRepository;
 
 
-    public Optional<GrupoEntity> findGrupoById(Integer id){
-        return grupoRepository.findById(id);
+    public GrupoEntity findGrupoById(Integer id) throws RegraDeNegocioException {
+        return grupoRepository.findById(id)
+                .orElseThrow(()-> new RegraDeNegocioException("Grupo não encontrado"));
 
     }
 }

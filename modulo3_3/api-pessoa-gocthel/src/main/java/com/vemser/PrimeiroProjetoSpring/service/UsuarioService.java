@@ -2,7 +2,6 @@ package com.vemser.PrimeiroProjetoSpring.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vemser.PrimeiroProjetoSpring.dto.LoginCreateDTO;
-import com.vemser.PrimeiroProjetoSpring.dto.LoginDTO;
 import com.vemser.PrimeiroProjetoSpring.entity.GrupoEntity;
 import com.vemser.PrimeiroProjetoSpring.entity.UsuarioEntity;
 import com.vemser.PrimeiroProjetoSpring.exception.RegraDeNegocioException;
@@ -11,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,19 +30,17 @@ public class UsuarioService {
         return usuarioRepository.findByLogin(login);
     }
 
-    public void createUser(LoginCreateDTO loginCreateDTO) {
+    public void createUser(LoginCreateDTO loginCreateDTO) throws RegraDeNegocioException {
         UsuarioEntity usuarioEntity= objectMapper.convertValue(loginCreateDTO,UsuarioEntity.class);
         String senha = new BCryptPasswordEncoder().encode(loginCreateDTO.getSenha());
         usuarioEntity.setSenha(senha);
-        usuarioEntity.setGrupos(loginCreateDTO.getLista()
-                .stream()
-                .map(s-> {
-                    Optional<GrupoEntity> optional = grupoService.findGrupoById(s);
-                    if(optional.isPresent()){
-                        return optional.get();
-                    } return null;
-                })
-                .collect(Collectors.toSet()));
+        Set<GrupoEntity> grupos = new HashSet<>();
+       for( Integer id: loginCreateDTO.getLista()){
+           GrupoEntity grupoEntity = grupoService.findGrupoById(id);
+           grupos.add(grupoEntity);
+       }
+       usuarioEntity.setGrupos(grupos);
         usuarioRepository.save(usuarioEntity);
     }
+
 }
