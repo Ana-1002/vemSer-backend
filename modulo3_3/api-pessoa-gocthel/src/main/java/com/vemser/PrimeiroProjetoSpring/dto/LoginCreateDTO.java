@@ -1,17 +1,22 @@
 package com.vemser.PrimeiroProjetoSpring.dto;
 
-
-import com.vemser.PrimeiroProjetoSpring.entity.GrupoEntity;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Data
-public class LoginDTO extends LoginCreateDTO{
+public class LoginCreateDTO {
+    @NotNull
+    @NotEmpty
+    private String login;
 
     @NotNull
     @NotEmpty
-    private Set<GrupoEntity> grupos;
+    private String senha;
+
+    @NotNull
+    @NotEmpty
+    private List<Integer> lista;
 }

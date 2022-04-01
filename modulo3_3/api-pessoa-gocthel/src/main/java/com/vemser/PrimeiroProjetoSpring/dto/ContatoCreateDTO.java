@@ -12,13 +12,6 @@ import javax.validation.constraints.Size;
 @Data
 public class ContatoCreateDTO {
 
-
-
-    @ApiModelProperty(value = "Tipo de Contato")
-    @NotNull
-    @Max(2)
-    private ContatoTipo tipo;
-
     @ApiModelProperty(value = "Numero para contato")
     @NotEmpty
     @Size(min = 9, max = 11)

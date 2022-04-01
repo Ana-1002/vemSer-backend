@@ -11,10 +11,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class EnderecoCreateDTO {
-    @ApiModelProperty(value = "Tipo de endereco")
-    @NotNull
-    @Max(2)
-    private EnderecoTipo tipo;
+
 
     @ApiModelProperty(value = "logradouro")
     @NotEmpty

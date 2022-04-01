@@ -3,6 +3,7 @@ package com.vemser.PrimeiroProjetoSpring.controller;
 import com.vemser.PrimeiroProjetoSpring.dto.EnderecoCreateDTO;
 import com.vemser.PrimeiroProjetoSpring.dto.EnderecoDTO;
 import com.vemser.PrimeiroProjetoSpring.entity.EnderecoEntity;
+import com.vemser.PrimeiroProjetoSpring.entity.EnderecoTipo;
 import com.vemser.PrimeiroProjetoSpring.repository.EnderecoRepository;
 import com.vemser.PrimeiroProjetoSpring.service.EnderecoService;
 import io.swagger.annotations.ApiOperation;
@@ -71,9 +72,9 @@ public class EnderecoController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping("/{idPessoa}")
-    public ResponseEntity<EnderecoDTO> create(@RequestBody  @Valid EnderecoCreateDTO endereco) throws Exception {
+    public ResponseEntity<EnderecoDTO> create(@PathVariable("idPessoa") Integer id, @RequestBody @Valid EnderecoCreateDTO endereco, @Valid @RequestParam EnderecoTipo tipo) throws Exception {
         log.info("Criou um endereço");
-        EnderecoDTO enderecoDTO = enderecoService.create(endereco);
+        EnderecoDTO enderecoDTO = enderecoService.create(id, endereco, tipo);
    return ResponseEntity.ok(enderecoDTO);
     }
 
@@ -84,9 +85,9 @@ public class EnderecoController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PutMapping("/{idEndereco}")
-    public ResponseEntity<EnderecoDTO> update(@PathVariable("idEndereco") @Valid Integer id, @RequestBody @Valid EnderecoCreateDTO endereco) throws Exception {
+    public ResponseEntity<EnderecoDTO> update(@PathVariable("idEndereco") @Valid Integer id, @RequestBody @Valid EnderecoCreateDTO endereco, @Valid @RequestParam EnderecoTipo tipo) throws Exception {
         log.info("Editou o endereco de id " + id);
-        EnderecoDTO enderecoDTO = enderecoService.update(id, endereco);
+        EnderecoDTO enderecoDTO = enderecoService.update(id, endereco, tipo);
     return ResponseEntity.ok(enderecoDTO);
     }
 

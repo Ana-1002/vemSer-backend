@@ -3,6 +3,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vemser.PrimeiroProjetoSpring.dto.EnderecoCreateDTO;
 import com.vemser.PrimeiroProjetoSpring.dto.EnderecoDTO;
 import com.vemser.PrimeiroProjetoSpring.entity.EnderecoEntity;
+import com.vemser.PrimeiroProjetoSpring.entity.EnderecoTipo;
+import com.vemser.PrimeiroProjetoSpring.entity.PessoaEntity;
 import com.vemser.PrimeiroProjetoSpring.exception.RegraDeNegocioException;
 import com.vemser.PrimeiroProjetoSpring.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,26 +12,31 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
+    @Autowired
+    private PessoaService pessoaService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    public EnderecoDTO create(EnderecoCreateDTO enderecoCreateDTO) throws Exception {
+    public EnderecoDTO create(Integer id, EnderecoCreateDTO enderecoCreateDTO, EnderecoTipo tipo) throws Exception {
 
         EnderecoEntity endereco = objectMapper.convertValue(enderecoCreateDTO, EnderecoEntity.class);
-        EnderecoEntity enderecoCriado = enderecoRepository.save(endereco);
+        endereco.setTipo(tipo);
+        endereco.getPessoas().add(objectMapper.convertValue(pessoaService.getPessoaById(id), PessoaEntity.class));
 
+        EnderecoEntity enderecoCriado = enderecoRepository.save(endereco);
         return objectMapper.convertValue(enderecoCriado, EnderecoDTO.class);
     }
 
     public EnderecoDTO update(Integer id,
-                              @Valid EnderecoCreateDTO enderecoAtualizar) throws Exception {
+                              @Valid EnderecoCreateDTO enderecoAtualizar, EnderecoTipo tipo) throws Exception {
         EnderecoEntity enderecoEncontrada = enderecoRepository.findById(id)
                 .orElseThrow(()-> new RegraDeNegocioException("Endereco não encontrada!"));
         enderecoEncontrada.setLogradouro(enderecoAtualizar.getLogradouro());
@@ -38,7 +45,7 @@ public class EnderecoService {
         enderecoEncontrada.setCidade(enderecoAtualizar.getCidade());
         enderecoEncontrada.setEstado(enderecoAtualizar.getEstado());
         enderecoEncontrada.setPais(enderecoAtualizar.getPais());
-        enderecoEncontrada.setTipo(enderecoAtualizar.getTipo());
+        enderecoEncontrada.setTipo(tipo);
 
 
         EnderecoEntity update = enderecoRepository.save(enderecoEncontrada);

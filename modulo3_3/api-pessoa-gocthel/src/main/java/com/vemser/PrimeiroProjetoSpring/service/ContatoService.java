@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vemser.PrimeiroProjetoSpring.dto.ContatoCreateDTO;
 import com.vemser.PrimeiroProjetoSpring.dto.ContatoDTO;
 import com.vemser.PrimeiroProjetoSpring.entity.ContatoEntity;
+import com.vemser.PrimeiroProjetoSpring.entity.ContatoTipo;
+import com.vemser.PrimeiroProjetoSpring.entity.PessoaEntity;
 import com.vemser.PrimeiroProjetoSpring.exception.RegraDeNegocioException;
 import com.vemser.PrimeiroProjetoSpring.repository.ContatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,17 @@ public class ContatoService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public ContatoDTO create(Integer idPessoa, ContatoCreateDTO contato){
+    @Autowired
+    private PessoaService pessoaService;
+
+    public ContatoDTO create(Integer idPessoa, ContatoCreateDTO contato, ContatoTipo tipo) throws Exception {
 
         ContatoEntity contatoEntity1 = objectMapper.convertValue(contato, ContatoEntity.class);
         contatoEntity1.setIdPessoa(idPessoa);
+        contatoEntity1.setTipo(tipo);
+
+        contatoEntity1.setPessoaEntity(objectMapper.convertValue(pessoaService.getPessoaById(idPessoa), PessoaEntity.class));
+
         ContatoEntity contatoEntityCriado = contatoRepository.save(contatoEntity1);
 
         return objectMapper.convertValue(contatoEntityCriado, ContatoDTO.class);
@@ -36,13 +45,13 @@ public class ContatoService {
     }
 
     public ContatoDTO update(Integer id,
-                         ContatoDTO contatoAtualizar) throws Exception {
+                         ContatoDTO contatoAtualizar, ContatoTipo tipo) throws Exception {
 
         ContatoEntity contatoEntity = contatoRepository.findById(id)
                 .orElseThrow(()->new RegraDeNegocioException("Contato não encontrada!"));
         contatoEntity.setDescricao(contatoAtualizar.getDescricao());
         contatoEntity.setNumero(contatoAtualizar.getNumero());
-        contatoEntity.setTipo(contatoAtualizar.getTipo());
+        contatoEntity.setTipo(tipo);
 
         return objectMapper.convertValue(contatoEntity, ContatoDTO.class);
     }

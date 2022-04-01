@@ -1,5 +1,7 @@
 package com.vemser.PrimeiroProjetoSpring.controller;
 
+import com.vemser.PrimeiroProjetoSpring.dto.AuthDTO;
+import com.vemser.PrimeiroProjetoSpring.dto.LoginCreateDTO;
 import com.vemser.PrimeiroProjetoSpring.dto.LoginDTO;
 import com.vemser.PrimeiroProjetoSpring.security.TokenService;
 import com.vemser.PrimeiroProjetoSpring.service.UsuarioService;
@@ -8,10 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 @RestController
@@ -24,16 +23,16 @@ public class AuthController {
     private final UsuarioService usuarioService;
 
     @PostMapping("/createUser")
-    public void createUser(@RequestBody @Valid LoginDTO loginDTO){
-       usuarioService.createUser(loginDTO);
+    public void createUser(@RequestBody @Valid LoginCreateDTO loginCreateDTO) throws Exception {
+       usuarioService.createUser(loginCreateDTO);
     }
 
     @PostMapping()
-    public String auth(@RequestBody @Valid LoginDTO loginDTO) {
+    public String auth(@RequestBody @Valid AuthDTO authDTO) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
-                        loginDTO.getLogin(),
-                        loginDTO.getSenha()
+                        authDTO.getLogin(),
+                        authDTO.getSenha()
                 );
 
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);

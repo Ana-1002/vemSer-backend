@@ -54,9 +54,9 @@ public class ContatoController {
     })
     @PostMapping("/{idPessoa}") // localhost:8080/contato
     public ResponseEntity<ContatoDTO> create(@PathVariable("idPessoa") @Valid Integer id,
-                                                   @RequestBody @Valid ContatoCreateDTO contato) throws Exception{
+                                                   @RequestBody @Valid ContatoCreateDTO contato, @RequestParam @Valid ContatoTipo tipo) throws Exception{
         log.info("Criou o contato");
-        return ResponseEntity.ok(contatoService.create(id, contato));
+        return ResponseEntity.ok(contatoService.create(id, contato, tipo));
     }
     @ApiOperation(value = "Retorna uma lista de contatos")
     @ApiResponses(value = {
@@ -89,9 +89,9 @@ public class ContatoController {
     })
     @PutMapping("/{idContato}") // localhost:8080/contato/1000
     public ResponseEntity<ContatoDTO> update(@PathVariable("idContato") @Valid Integer id,
-                         @RequestBody @Valid ContatoDTO contatoAtuallizar) throws Exception {
+                         @RequestBody @Valid ContatoDTO contatoAtuallizar, @RequestParam @Valid ContatoTipo tipo) throws Exception {
         log.info("Editou o contato");
-        return ResponseEntity.ok(contatoService.update(id, contatoAtuallizar));
+        return ResponseEntity.ok(contatoService.update(id, contatoAtuallizar, tipo));
     }
 
     @ApiOperation(value = "Deletou um contato pelo seu id")
