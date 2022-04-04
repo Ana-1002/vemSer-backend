@@ -1,0 +1,106 @@
+//Criação da Collection Request
+db.createCollection("request")
+
+//Inserindo um array de docs
+Comando: db.request.insertMany([
+	{
+		"TITLE" : "CrianÃ§a faminta",
+		"REQUEST_DESCRIPTION" : " NÃ£o temos dinheiro para alimentar nossa filha de 3 anos",
+		"GOAL" : 50000,
+		"REACHED_VALUE" : 0,
+		"ID_CATEGORY" : 2,
+		"ID_BANK_ACCOUNT" : 1,
+		"ID_USER" : 1
+	},
+	{
+		"TITLE" : "Meu pai estÃ¡ morrendo",
+		"REQUEST_DESCRIPTION" : " NÃ£o temos dinheiro para os remÃ©dios",
+		"GOAL" : 100000,
+		"REACHED_VALUE" : 0,
+		"ID_CATEGORY" : 3,
+		"ID_BANK_ACCOUNT" : 2,
+		"ID_USER" : 2
+	},
+	{
+		"TITLE" : "Anne nÃ£o tem fÃ¡milia, paÃ­s e comida",
+		"REQUEST_DESCRIPTION" : " Uma refugiada Ucraniana de 7 anos, precisamos de dinheiro pra manter a ong",
+		"GOAL" : 200000,
+		"REACHED_VALUE" : 0,
+		"ID_CATEGORY" : 6,
+		"ID_BANK_ACCOUNT" : 3,
+		"ID_USER" : 3
+	}
+]
+)
+
+//FIND com navegação no documento
+
+Comando: db.request.find().pretty()
+
+//Resultado
+
+{ _id: ObjectId("624b4e7b2323e402579b8e9c"),
+  TITLE: 'CrianÃ§a faminta',
+  REQUEST_DESCRIPTION: ' NÃ£o temos dinheiro para alimentar nossa filha de 3 anos',
+  GOAL: 50000,
+  REACHED_VALUE: 0,
+  ID_CATEGORY: 2,
+  ID_BANK_ACCOUNT: 1,
+  ID_USER: 1 }
+{ _id: ObjectId("624b4e7b2323e402579b8e9d"),
+  TITLE: 'Meu pai estÃ¡ morrendo',
+  REQUEST_DESCRIPTION: ' NÃ£o temos dinheiro para os remÃ©dios',
+  GOAL: 100000,
+  REACHED_VALUE: 0,
+  ID_CATEGORY: 3,
+  ID_BANK_ACCOUNT: 2,
+  ID_USER: 2 }
+{ _id: ObjectId("624b4e7b2323e402579b8e9e"),
+  TITLE: 'Anne nÃ£o tem fÃ¡milia, paÃ­s e comida',
+  REQUEST_DESCRIPTION: ' Uma refugiada Ucraniana de 7 anos, precisamos de dinheiro pra manter a ong',
+  GOAL: 200000,
+  REACHED_VALUE: 0,
+  ID_CATEGORY: 6,
+  ID_BANK_ACCOUNT: 3,
+  ID_USER: 3 }
+
+Comando: db.request.find({"ID_USER" : 3})
+
+//Resultado
+
+{ _id: ObjectId("624b4e7b2323e402579b8e9e"),
+  TITLE: 'Anne nÃ£o tem fÃ¡milia, paÃ­s e comida',
+  REQUEST_DESCRIPTION: ' Uma refugiada Ucraniana de 7 anos, precisamos de dinheiro pra manter a ong',
+  GOAL: 200000,
+  REACHED_VALUE: 0,
+  ID_CATEGORY: 6,
+  ID_BANK_ACCOUNT: 3,
+  ID_USER: 3 }
+
+//Remover
+
+Comando: db.request.remove({"ID_USER" : 3})
+
+//Resultado
+{ acknowledged: true, deletedCount: 1 }
+
+Conferindo se deletou: db.request.find().pretty()
+
+{ _id: ObjectId("624b4e7b2323e402579b8e9c"),
+  TITLE: 'CrianÃ§a faminta',
+  REQUEST_DESCRIPTION: ' NÃ£o temos dinheiro para alimentar nossa filha de 3 anos',
+  GOAL: 50000,
+  REACHED_VALUE: 0,
+  ID_CATEGORY: 2,
+  ID_BANK_ACCOUNT: 1,
+  ID_USER: 1 }
+{ _id: ObjectId("624b4e7b2323e402579b8e9d"),
+  TITLE: 'Meu pai estÃ¡ morrendo',
+  REQUEST_DESCRIPTION: ' NÃ£o temos dinheiro para os remÃ©dios',
+  GOAL: 100000,
+  REACHED_VALUE: 0,
+  ID_CATEGORY: 3,
+  ID_BANK_ACCOUNT: 2,
+  ID_USER: 2 }
+
+//Deletou :)
