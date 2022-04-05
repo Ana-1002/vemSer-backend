@@ -1,0 +1,220 @@
+use vakinha
+'switched to db vakinha'
+
+--> Criando a collection donate:
+
+	db.createCollection("donate")
+--> retorno : { ok: 1 }
+
+-->Inserindo muitos docs em donate
+
+	db.donate.insertMany(
+ 		[
+	{
+		"ID_DONATE" : 1,
+		"ID_REQUEST" : 1,
+		"DONATOR_NAME" : "Ana",
+		"DONATOR_EMAIL" : "ana@gmail.com",
+		"DONATE_VALUE" : 500,
+		"DONATE_DESCRIPTION" : "Boa sorte"
+	},
+	{
+		"ID_DONATE" : 2,
+		"ID_REQUEST" : 3,
+		"DONATOR_NAME" : "Nicolas",
+		"DONATOR_EMAIL" : "nicolas@gmail.com",
+		"DONATE_VALUE" : 100,
+		"DONATE_DESCRIPTION" : "melhoras"
+	},
+	{
+		"ID_DONATE" : 3,
+		"ID_REQUEST" : 2,
+		"DONATOR_NAME" : "Lucas",
+		"DONATOR_EMAIL" : "lucas@gmail.com",
+		"DONATE_VALUE" : 100,
+		"DONATE_DESCRIPTION" : null
+	}
+]
+)
+--> retorno : { acknowledged: true,
+  insertedIds: 
+   { '0': ObjectId("624cbe3f12ff2e6b787033d8"),
+     '1': ObjectId("624cbe3f12ff2e6b787033d9"),
+     '2': ObjectId("624cbe3f12ff2e6b787033da") } }
+
+--> Find Equal 
+
+//Donate_value Igual a 100
+
+	db.donate.find({"DONATE_VALUE": 100})
+
+--> Retorno: 
+
+{ _id: ObjectId("624cbe3f12ff2e6b787033d9"),
+  ID_DONATE: 2,
+  ID_REQUEST: 3,
+  DONATOR_NAME: 'Nicolas',
+  DONATOR_EMAIL: 'nicolas@gmail.com',
+  DONATE_VALUE: 100,
+  DONATE_DESCRIPTION: 'melhoras' }
+{ _id: ObjectId("624cbe3f12ff2e6b787033da"),
+  ID_DONATE: 3,
+  ID_REQUEST: 2,
+  DONATOR_NAME: 'Lucas',
+  DONATOR_EMAIL: 'lucas@gmail.com',
+  DONATE_VALUE: 100,
+  DONATE_DESCRIPTION: null }
+
+// Donator_name Igual a "Ana"
+
+	db.donate.find({"DONATOR_NAME": "Ana"})
+
+--> Retorno: 
+
+{ _id: ObjectId("624cbe3f12ff2e6b787033d8"),
+  ID_DONATE: 1,
+  ID_REQUEST: 1,
+  DONATOR_NAME: 'Ana',
+  DONATOR_EMAIL: 'ana@gmail.com',
+  DONATE_VALUE: 500,
+  DONATE_DESCRIPTION: 'Boa sorte' }
+
+
+-->Find And
+
+//Nome = lucas e valor =100
+	db.donate.find({
+	"DONATOR_NAME": "Lucas",
+	"DONATE_VALUE": 100
+	})
+
+-->Retorno
+
+{ _id: ObjectId("624cbe3f12ff2e6b787033da"),
+  ID_DONATE: 3,
+  ID_REQUEST: 2,
+  DONATOR_NAME: 'Lucas',
+  DONATOR_EMAIL: 'lucas@gmail.com',
+  DONATE_VALUE: 100,
+  DONATE_DESCRIPTION: null }
+
+//valor>200 e Id request = 1
+
+	db.donate.find({
+	"DONATE_VALUE": {$gte: 200},
+	"ID_REQUEST":1
+	})
+
+
+-->Retorno
+
+{ _id: ObjectId("624cbe3f12ff2e6b787033d8"),
+  ID_DONATE: 1,
+  ID_REQUEST: 1,
+  DONATOR_NAME: 'Ana',
+  DONATOR_EMAIL: 'ana@gmail.com',
+  DONATE_VALUE: 500,
+  DONATE_DESCRIPTION: 'Boa sorte' }
+
+--> FIND EXPRESSAO
+
+
+//Contendo u
+
+	db.donate.find({"DONATOR_NAME":/u.*/})
+
+-->Retorno
+
+{ _id: ObjectId("624cbe3f12ff2e6b787033da"),
+  ID_DONATE: 3,
+  ID_REQUEST: 2,
+  DONATOR_NAME: 'Lucas',
+  DONATOR_EMAIL: 'lucas@gmail.com',
+  DONATE_VALUE: 100,
+  DONATE_DESCRIPTION: null }
+
+//Contendo L ou l
+
+	db.donate.find(
+	{
+	    $or: [
+			{nome: /L.*/}, 
+			{nome: /l$/ }	
+		]
+	})
+
+-->Retorno
+
+{_id: ObjectId("624cbe3f12ff2e6b787033d8"),
+  ID_DONATE: 1,
+  ID_REQUEST: 1,
+  DONATOR_NAME: 'Ana',
+  DONATOR_EMAIL: 'ana@gmail.com',
+  DONATE_VALUE: 500,
+  DONATE_DESCRIPTION: 'Boa sorte' }
+{ _id: ObjectId("624cbe3f12ff2e6b787033da"),
+  ID_DONATE: 3,
+  ID_REQUEST: 2,
+  DONATOR_NAME: 'Lucas',
+  DONATOR_EMAIL: 'lucas@gmail.com',
+  DONATE_VALUE: 100,
+  DONATE_DESCRIPTION: null }
+
+--> FIND AND IN/OR
+
+//id igual 2 ou 3
+	db.donate.find({"ID_REQUEST": {$in:[2,3]}})
+
+-->Retorno
+
+{ _id: ObjectId("624cbe3f12ff2e6b787033d9"),
+  ID_DONATE: 2,
+  ID_REQUEST: 3,
+  DONATOR_NAME: 'Nicolas',
+  DONATOR_EMAIL: 'nicolas@gmail.com',
+  DONATE_VALUE: 300,
+  DONATE_DESCRIPTION: 'melhoras'}
+{ _id: ObjectId("624cbe3f12ff2e6b787033da"),
+  ID_DONATE: 3,
+  ID_REQUEST: 2,
+  DONATOR_NAME: 'Lucas',
+  DONATOR_EMAIL: 'lucas@gmail.com',
+  DONATE_VALUE: 500,
+  DONATE_DESCRIPTION: null }
+
+//Valor<=300 e id = 1 ou 2
+	db.donate.find({
+		$or: [
+			{ ID_DONATE: 1 },
+			{ ID_DONATE: 2 }
+		],
+		DONATE_VALUE: { $lte: 300}
+	})
+
+
+-->UPDATE
+
+//atualizar um só
+
+db.donate.updateOne({"DONATE_VALUE":100},
+{$set: {"DONATE_VALUE":500}}
+)
+
+--Retorno
+{ acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0 }
+
+
+// atualizar vários
+
+db.donate.updateMany({"DONATE_VALUE":500},
+{$set: {"DONATE_VALUE":300}}
+)
+--Retorno { acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0 }
