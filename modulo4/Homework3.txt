@@ -1,0 +1,153 @@
+db.user.insertMany([
+	{
+		"ID_USER" : 1,
+		"NAME" : "Daniele",
+		"EMAIL" : ["dani@gmail.com", "daniele@gmail.com"],
+		"PASSWORD" : "1234",
+		"TYPE" : 1,
+		"DOCUMENT" : "123.456.789-00"
+
+	},
+	{
+		"ID_USER" : 2,
+		"NAME" : "Liane",
+		"EMAIL" : ["liane@gmail.com", "lili@gmail.com"],
+		"PASSWORD" : "1234",
+		"TYPE" : 1,
+		"DOCUMENT" : "123.456.789-01"
+	},
+	{
+		"ID_USER" : 3,
+		"NAME" : "Claudia",
+		"EMAIL" : ["claudia@gmail.com"],
+		"PASSWORD" : "1234",
+		"TYPE" : 1,
+		"DOCUMENT" : "123.456.789-02"
+	},
+	{
+		"ID_USER" : 4,
+		"NAME" : "Rodrigo",
+		"EMAIL" : ["rodrigo@gmail.com", "rodriguinho@gmail.com", "ro@yahoo.com"],
+		"PASSWORD" : "1234",
+		"TYPE" : 2,
+		"DOCUMENT" : "11.111.111\/1111-11"
+	}
+]
+)
+
+--> Return
+
+{ acknowledged: true,
+  insertedIds: 
+   { '0': ObjectId("624cd73512ff2e6b787033de"),
+     '1': ObjectId("624cd73512ff2e6b787033df"),
+     '2': ObjectId("624cd73512ff2e6b787033e0"),
+     '3': ObjectId("624cd73512ff2e6b787033e1") } }
+
+
+-->FIND ORDENADO
+
+	db.user.find().sort("NAME")
+
+-> RETORNO 
+
+{ _id: ObjectId("624cd73512ff2e6b787033e0"),
+  ID_USER: 3,
+  NAME: 'Claudia',
+  EMAIL: [ 'claudia@gmail.com' ],
+  PASSWORD: '1234',
+  TYPE: 1,
+  DOCUMENT: '123.456.789-02' }
+{ _id: ObjectId("624cd73512ff2e6b787033de"),
+  ID_USER: 1,
+  NAME: 'Daniele',
+  EMAIL: [ 'dani@gmail.com', 'daniele@gmail.com' ],
+  PASSWORD: '1234',
+  TYPE: 1,
+  DOCUMENT: '123.456.789-00' }
+{ _id: ObjectId("624cd73512ff2e6b787033df"),
+  ID_USER: 2,
+  NAME: 'Liane',
+  EMAIL: [ 'liane@gmail.com', 'lili@gmail.com' ],
+  PASSWORD: '1234',
+  TYPE: 1,
+  DOCUMENT: '123.456.789-01' }
+{ _id: ObjectId("624cd73512ff2e6b787033e1"),
+  ID_USER: 4,
+  NAME: 'Rodrigo',
+  EMAIL: [ 'rodrigo@gmail.com', 'rodriguinho@gmail.com', 'ro@yahoo.com' ],
+  PASSWORD: '1234',
+  TYPE: 2,
+  DOCUMENT: '11.111.111/1111-11' }
+
+
+--> FIND LIMIT
+	
+	db.user.find().limit(2)
+
+->RETORNO
+
+{ _id: ObjectId("624cd73512ff2e6b787033de"),
+  ID_USER: 1,
+  NAME: 'Daniele',
+  EMAIL: [ 'dani@gmail.com', 'daniele@gmail.com' ],
+  PASSWORD: '1234',
+  TYPE: 1,
+  DOCUMENT: '123.456.789-00' }
+{ _id: ObjectId("624cd73512ff2e6b787033df"),
+  ID_USER: 2,
+  NAME: 'Liane',
+  EMAIL: [ 'liane@gmail.com', 'lili@gmail.com' ],
+  PASSWORD: '1234',
+  TYPE: 1,
+  DOCUMENT: '123.456.789-01' }
+
+--> FIND ARRAY
+	
+	db.user.find({ "EMAIL": "ro@yahoo.com" })
+
+->RETORNO
+
+{ _id: ObjectId("624cd73512ff2e6b787033e1"),
+  ID_USER: 4,
+  NAME: 'Rodrigo',
+  EMAIL: [ 'rodrigo@gmail.com', 'rodriguinho@gmail.com', 'ro@yahoo.com' ],
+  PASSWORD: '1234',
+  TYPE: 2,
+  DOCUMENT: '11.111.111/1111-11' }
+
+--> PROJECTIONS
+
+	db.user.find({ }, { "NAME": 1, "EMAIL": 2 })
+
+->RETORNO
+
+{ _id: ObjectId("624cd73512ff2e6b787033de"),
+  NAME: 'Daniele',
+  EMAIL: [ 'dani@gmail.com', 'daniele@gmail.com' ] }
+{ _id: ObjectId("624cd73512ff2e6b787033df"),
+  NAME: 'Liane',
+  EMAIL: [ 'liane@gmail.com', 'lili@gmail.com' ] }
+{ _id: ObjectId("624cd73512ff2e6b787033e0"),
+  NAME: 'Claudia',
+  EMAIL: [ 'claudia@gmail.com' ] }
+{ _id: ObjectId("624cd73512ff2e6b787033e1"),
+  NAME: 'Rodrigo',
+  EMAIL: [ 'rodrigo@gmail.com', 'rodriguinho@gmail.com', 'ro@yahoo.com' ] }
+
+--> AGGREGATE
+db.donate.aggregate(
+	[
+		{ $match: {"ID_REQUEST": 1} },
+		{ $group: { _id: "$DONATOR_NAME", "TOTAL_DOADO":{ $sum: "$DONATE_VALUE" } } }
+	]
+)
+
+
+//Ana era a unica doadora da request 1 com uma doação de 1000 e outra de 500
+->RETORNO
+
+{ _id: 'Ana', TOTAL_DOADO: 1500 }
+
+
+
