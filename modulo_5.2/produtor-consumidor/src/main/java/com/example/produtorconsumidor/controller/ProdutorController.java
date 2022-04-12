@@ -14,7 +14,7 @@ public class ProdutorController {
     private final ProdutorService produtorService;
 
     @PostMapping("/enviarMensagem")
-    private void enviarMensagem(String mensagem) {
+    public void enviarMensagem(String mensagem) {
         produtorService.enviarMensagem(mensagem);
     }
 }
