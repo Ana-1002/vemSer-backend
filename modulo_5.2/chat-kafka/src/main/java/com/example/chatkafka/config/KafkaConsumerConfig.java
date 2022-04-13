@@ -37,7 +37,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress); //localhost:9092
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.CLIENT_ID_CONFIG, "ana");
+        props.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, EARLIEST);
 
@@ -54,7 +54,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress); //localhost:9092
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.CLIENT_ID_CONFIG, "anageral");
+        props.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, EARLIEST);
 
